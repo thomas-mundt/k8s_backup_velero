@@ -72,7 +72,9 @@ EOF
 
 Install plugin
 ```
-velero plugin add velero/velero-plugin-for-aws:v1.0.0.
+velero plugin add velero/velero-plugin-for-aws:v1.0.0
+
+velero plugin add velero/velero-plugin-for-aws:v1.1.0
 ```
 
 
@@ -87,8 +89,62 @@ velero install \
 ```
 
 
+With Helm
+```
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
+velero install --provider aws --plugins velero-plugin-for-aws:v1.1.0 --bucket kubedemo --secret-file ./minio.credentials
+```
 
 
+
+
+## Backup
+
+```
+velero backup-location get
+
+# List backups
+velero backup get
+```
+
+
+
+```
+kubectl get backups -n velero
+kubectl get crds -n velero
+
+# The cluster
+velero backup create firstbackup
+
+# A namespace
+velero backup create firstbackup --include-namespace testing --exlude-resources pod
+velero backup create firstbackup --exlude-namespaces testing
+velero backup create firstbackup --exlude-resources configmaps
+--exlude-resources
+--include-resources
+--exlude-namespace
+--include-namespace
+
+kubectl get backups -n velero
+velero backups get
+
+velero backup describe firstbackup 
+
+
+# Restore
+velero restore get
+velero restore create firstbackup-restore1 --from-backup firstbackup
+velero restore get
+velero restore describe firstbackup-restore1 
+
+# Restore parts from full backup
+--exlude-resources
+--include-resources
+--exlude-namespace
+--include-namespace
+
+```
 
 
 
