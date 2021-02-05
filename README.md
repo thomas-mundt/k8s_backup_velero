@@ -144,6 +144,22 @@ velero restore describe firstbackup-restore1
 --exlude-namespace
 --include-namespace
 
+
+
+# Sceduled backups
+velero schedule 
+velero schedule create firstschedule --schedule="* * * * *" #every minute
+--schedule="*/15 * * * *"  #every 15 minutes
+--schedule="@every 10m" #every 10 minutes
+--schedule="@every 2h" 2 hours
+2d
+1w
+
+
+velero schedule describe ...
+
+velero backup get
+
 ```
 
 
